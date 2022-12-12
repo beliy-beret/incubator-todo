@@ -1,20 +1,20 @@
 import React from "react";
-
-type Task = {
-  id: number
-  title: string
-  isDone: boolean
-};
+import {FilterModeType, TaskType} from "./App";
 
 type ComponentProps = {
   title: string
-  taskList: Array<Task>
+  taskList: Array<TaskType>
+  deleteTask: (taskId: number) => void
+  changeFilter: (filter: FilterModeType) => void
 }
 
-export function Todolist({title, taskList}: ComponentProps) {
+export function Todolist({title, taskList, deleteTask, changeFilter}: ComponentProps) {
   function showTaskList(){
     return taskList.map((item) => (
-      <li key={item.id}><input type="checkbox" checked={item.isDone}/> <span>{item.title}</span></li>
+      <li key={item.id}><input type="checkbox" checked={item.isDone}/>
+        <span>{item.title}</span>
+        <button onClick={() => deleteTask(item.id)}>Del</button>
+      </li>
     ))
   }
   return (
@@ -28,9 +28,9 @@ export function Todolist({title, taskList}: ComponentProps) {
         {showTaskList()}
       </ul>
       <div>
-        <button>All</button>
-        <button>Active</button>
-        <button>Completed</button>
+        <button onClick={() => changeFilter('all')}>All</button>
+        <button onClick={() => changeFilter('active')}>Active</button>
+        <button onClick={() => changeFilter('completed')}>Completed</button>
       </div>
     </div>
   )
