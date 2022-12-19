@@ -1,23 +1,23 @@
-import React, {useState} from 'react';
+import {FC, useState} from 'react';
 import './App.css';
-import {Todolist} from "./Todolist";
+import Todolist from "./Todolist";
+import {v1} from "uuid";
 
 export type FilterModeType = 'all' | 'active' | 'completed'
 export type TaskType = {
-  id: number
+  id: string
   title: string
   isDone: boolean
 }
 
-function App() {
+const App: FC = () => {
+
   const [tasks, setTask] = useState<Array<TaskType>>([
-    {id: 1, title: "HTML&CSS", isDone: true},
-    {id: 2, title: "JS", isDone: true},
-    {id: 3, title: "ReactJS", isDone: false}
-  ])
-
+    {id: v1(), title: "HTML&CSS", isDone: true},
+    {id: v1(), title: "JS", isDone: true},
+    {id: v1(), title: "ReactJS", isDone: false}
+  ]);
   const [filterMode, setFilterMode] = useState<FilterModeType>('all');
-
   const showFilteredTask = (): Array<TaskType> => {
     switch (filterMode){
       case 'active':
@@ -27,11 +27,26 @@ function App() {
       default:
         return tasks
     }
-  }
+  };
   const filteredTasks = showFilteredTask();
   const filterModeHandle = (filter: FilterModeType) => setFilterMode(filter);
+  const deleteTask = (taskId: string) => setTask(tasks.filter(item => item.id !== taskId));
+  const addNewTask = (text: string) => {
+    const newTask: TaskType = {
+      id: v1(),
+      title: text,
+      isDone: false
+    }
+    setTask([...tasks, newTask]);
+  }
+  const toggleDoneValue = (taskId: string) => setTask(tasks.map((item) => {
+    if(item.id === taskId) {
+      return {...item, isDone: !item.isDone}
+    } else {
+      return item
+    }
+  }))
 
-  const deleteTask = (taskId: number) => setTask(tasks.filter(item => item.id !== taskId));
   return (
     <div className="App">
       <Todolist
@@ -39,6 +54,8 @@ function App() {
         taskList={filteredTasks}
         deleteTask={deleteTask}
         changeFilter={filterModeHandle}
+        addNewTask={addNewTask}
+        toggleDoneValue={toggleDoneValue}
       />
     </div>
   );
