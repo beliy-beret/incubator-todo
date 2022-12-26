@@ -1,6 +1,6 @@
 import {FC, useState} from 'react';
 import './App.css';
-import Todolist from "./Todolist";
+import TaskList from "./components/TaskList/TaskList";
 import {v1} from "uuid";
 
 export type FilterModeType = 'all' | 'active' | 'completed'
@@ -39,9 +39,9 @@ const App: FC = () => {
     }
     setTask([...tasks, newTask]);
   }
-  const toggleDoneValue = (taskId: string) => setTask(tasks.map((item) => {
+  const toggleDoneValue = (taskId: string, status: boolean) => setTask(tasks.map((item) => {
     if(item.id === taskId) {
-      return {...item, isDone: !item.isDone}
+      return {...item, isDone: status}
     } else {
       return item
     }
@@ -49,13 +49,14 @@ const App: FC = () => {
 
   return (
     <div className="App">
-      <Todolist
+      <TaskList
         title={'What to learn'}
         taskList={filteredTasks}
         deleteTask={deleteTask}
         changeFilter={filterModeHandle}
         addNewTask={addNewTask}
         toggleDoneValue={toggleDoneValue}
+        filterMode={filterMode}
       />
     </div>
   );

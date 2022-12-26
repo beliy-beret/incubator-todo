@@ -1,0 +1,7 @@
+.isDone {
+    text-decoration: line-through;
+}
+
+.activeFilter {
+    background-color: aqua;
+}
