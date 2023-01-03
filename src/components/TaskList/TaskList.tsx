@@ -12,6 +12,7 @@ type ComponentProps = {
   changeFilter: (filter: FilterModeType) => void
   addNewTask: (text: string) => void
   toggleDoneValue: (id: string, status: boolean) => void
+  removeTodoList: () => void
 }
 
 const TaskList: FC<ComponentProps> = (
@@ -22,7 +23,8 @@ const TaskList: FC<ComponentProps> = (
     changeFilter,
     addNewTask,
     toggleDoneValue,
-    filterMode
+    filterMode,
+    removeTodoList
   }
 ) => {
 
@@ -53,6 +55,7 @@ const TaskList: FC<ComponentProps> = (
 
   return (
     <div>
+      <div><button onClick={removeTodoList}>Delete List</button></div>
       <h3>{title}</h3>
       <AddNewTaskForm addNewTask={addNewTask} />
       <ul>
