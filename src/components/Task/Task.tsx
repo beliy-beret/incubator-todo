@@ -1,15 +1,17 @@
 import {FC, KeyboardEvent} from 'react';
 import {TaskType} from "../../App";
 import s from './style.module.css';
+import EditableSpan from "../EditableSpan/EditableSpan";
 
 type ComponentPropsType = {
   task: TaskType
   deleteTask: (taskId: string) => void
   changeTaskStatus: (taskId: string, taskStatus: boolean) => void
+  changeTaskTitle: (newText: string) => void
 }
 
 const Task: FC<ComponentPropsType> = (
-  { task, deleteTask, changeTaskStatus  }
+  { task, deleteTask, changeTaskStatus, changeTaskTitle }
 ) => {
 
   const onChangeCheckHandle = () => changeTaskStatus(task.id, !task.isDone);
@@ -24,7 +26,7 @@ const Task: FC<ComponentPropsType> = (
         onChange={onChangeCheckHandle}
         onKeyDown={onKeyDownHandle}
       />
-      <span className={task.isDone ? s.isDone : ''}>{task.title}</span>
+      <EditableSpan spanClassName={task.isDone ? s.isDone : ''} text={task.title} changeText={changeTaskTitle} />
       <button onClick={deleteTaskButtonHandle}>&#10007;</button>
     </>
   )

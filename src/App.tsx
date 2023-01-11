@@ -65,9 +65,21 @@ const App: FC = () => {
           ...tasks,
           [todoListId]: tasks[todoListId].map(el => el.id === taskId ? {...el, isDone: newStatus} : el)
         })
+    },
+    changeTask(todoListId: string, taskId: string, newText: string){
+      setTasks({
+        ...tasks,
+        [todoListId]: tasks[todoListId].map(item => {
+          if(item.id === taskId){
+            return{...item, title: newText}
+          } else {
+            return item
+          }
+        })
+      })
     }
   };
-  const todoListHandler = {
+  const todoListsHandler = {
     addList(title: string) {
       const newTodoList: TodoListsType = {
         id: v1(),
@@ -81,6 +93,15 @@ const App: FC = () => {
       setTodoLists(todoLists.filter(item => item.id !== listId));
       delete tasks[listId];
       setTasks({...tasks});
+    },
+    changeListTitle(listId: string, newTitle: string) {
+      setTodoLists(todoLists.map(item => {
+        if(item.id === listId) {
+          return {...item, title: newTitle}
+        } else {
+          return item
+        }
+      }))
     },
     toggleFilterMode(todoListId: string, filterMode: FilterModeType){
       setTodoLists(todoLists.map(item => {
@@ -99,7 +120,7 @@ const App: FC = () => {
         <h1 className={s.title}>Track your tasks</h1>
         <div className={s.form}>
           <span className={s.label}> Add new TodoList: </span>
-          <AddItemForm addItem={todoListHandler.addList} />
+          <AddItemForm addItem={todoListsHandler.addList} />
         </div>
       </div>
       {
@@ -119,8 +140,10 @@ const App: FC = () => {
           const deleteTask = (taskId: string) => tasksHandler.deleteTask(list.id, taskId)
           const addNewTask = (text: string) => tasksHandler.addTask(list.id, text)
           const toggleDoneValue = (taskId: string, newStatus: boolean) => tasksHandler.toggleDoneValue(list.id, taskId, newStatus)
-          const changeFilter = (filterMode: FilterModeType) => todoListHandler.toggleFilterMode(list.id, filterMode)
-          const deleteTodoList = () => todoListHandler.deleteList(list.id)
+          const changeFilter = (filterMode: FilterModeType) => todoListsHandler.toggleFilterMode(list.id, filterMode)
+          const deleteTodoList = () => todoListsHandler.deleteList(list.id)
+          const changeTask = (taskId: string, newText: string) => tasksHandler.changeTask(list.id, taskId, newText)
+          const changeListTitle = (newTitle: string) => todoListsHandler.changeListTitle(list.id, newTitle)
 
           return (
             <TaskList
@@ -133,6 +156,8 @@ const App: FC = () => {
               addNewTask={addNewTask}
               toggleDoneValue={toggleDoneValue}
               deleteTodoList={deleteTodoList}
+              changeTaskTitle={changeTask}
+              changeListTitle={changeListTitle}
             />
           )
         })
