@@ -1,7 +1,29 @@
 .isDone {
     text-decoration: line-through;
 }
-
 .activeFilter {
     background-color: aqua;
+}
+.title {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    border-bottom: 2px solid grey;
+    margin-bottom: 1rem;
+    padding-left: 1rem;
+}
+.buttons {
+    display: flex;
+    gap: 0.5rem;
+}
+.task {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+}
+.list {
+    display: flex;
+    flex-direction: column;
+    padding: 0.5rem;
 }

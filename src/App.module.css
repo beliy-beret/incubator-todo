@@ -1,0 +1,23 @@
+.App {
+  padding: 30px;
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+.header {
+  flex-basis: 100%;
+  border-bottom: 5px solid grey;
+  padding-bottom: 1rem;
+}
+.title{
+  text-align: center;
+}
+.form {
+  display: flex;
+  justify-content: center;
+  font-size: 1.2rem;
+  gap: 0.5rem;
+}
+.label {
+  padding-top: 5px;
+}

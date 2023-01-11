@@ -1,8 +1,8 @@
 import {FC} from "react";
 import {FilterModeType, TaskType} from "../../App";
 import Task from "../Task/Task";
-import AddNewTaskForm from "../AddNewTaskForm/AddNewTaskForm";
-import style from './style.module.css';
+import s from './style.module.css';
+import AddItemForm from "../AddItemForm/AddItemForm";
 
 type ComponentProps = {
   title: string
@@ -12,7 +12,7 @@ type ComponentProps = {
   changeFilter: (filter: FilterModeType) => void
   addNewTask: (text: string) => void
   toggleDoneValue: (id: string, status: boolean) => void
-  removeTodoList: () => void
+  deleteTodoList: () => void
 }
 
 const TaskList: FC<ComponentProps> = (
@@ -24,7 +24,7 @@ const TaskList: FC<ComponentProps> = (
     addNewTask,
     toggleDoneValue,
     filterMode,
-    removeTodoList
+    deleteTodoList
   }
 ) => {
 
@@ -34,7 +34,7 @@ const TaskList: FC<ComponentProps> = (
     } else {
       return taskList.map((item) => {
         return (
-          <li key={item.id}>
+          <li key={item.id} className={s.task}>
             <Task task={item} deleteTask={deleteTask} changeTaskStatus={toggleDoneValue}/>
           </li>
         )
@@ -55,16 +55,18 @@ const TaskList: FC<ComponentProps> = (
 
   return (
     <div>
-      <div><button onClick={removeTodoList}>Delete List</button></div>
-      <h3>{title}</h3>
-      <AddNewTaskForm addNewTask={addNewTask} />
-      <ul>
+      <div className={s.title}>
+        <h3>{title}</h3><button onClick={deleteTodoList}>&#10007;</button>
+      </div>
+
+      <AddItemForm addItem={addNewTask} />
+      <ul className={s.list}>
         {showTaskList()}
       </ul>
-      <div>
-        <button className={filterMode === 'all' ? style.activeFilter : ''} onClick={filterHandle.getAllTask}>All</button>
-        <button className={filterMode === 'active' ? style.activeFilter : ''} onClick={filterHandle.getActiveTask}>Active</button>
-        <button className={filterMode === 'completed' ? style.activeFilter : ''} onClick={filterHandle.getCompletedTask}>Completed</button>
+      <div className={s.buttons}>
+        <button className={filterMode === 'all' ? s.activeFilter : ''} onClick={filterHandle.getAllTask}>All</button>
+        <button className={filterMode === 'active' ? s.activeFilter : ''} onClick={filterHandle.getActiveTask}>Active</button>
+        <button className={filterMode === 'completed' ? s.activeFilter : ''} onClick={filterHandle.getCompletedTask}>Completed</button>
       </div>
     </div>
   )

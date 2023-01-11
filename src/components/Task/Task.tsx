@@ -1,5 +1,6 @@
 import {FC, KeyboardEvent} from 'react';
 import {TaskType} from "../../App";
+import s from './style.module.css';
 
 type ComponentPropsType = {
   task: TaskType
@@ -23,8 +24,8 @@ const Task: FC<ComponentPropsType> = (
         onChange={onChangeCheckHandle}
         onKeyDown={onKeyDownHandle}
       />
-      <span className={task.isDone ? 'isDone' : ''}>{task.title}</span>
-      <button onClick={deleteTaskButtonHandle}>Del</button>
+      <span className={task.isDone ? s.isDone : ''}>{task.title}</span>
+      <button onClick={deleteTaskButtonHandle}>&#10007;</button>
     </>
   )
 };
